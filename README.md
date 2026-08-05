@@ -11,7 +11,9 @@ C'est également disponible [ici](https://maelremrem.github.io/PotionStickers/)
 
 - Rendu SVG vectoriel : les contours externes et internes suivent la decoupe.
 - Dimensions libres en millimetres pour la largeur et la hauteur. Les exports PNG sont calcules a 300 dpi.
-- Exports : PNG HD, SVG et PDF via la fenetre d'impression du navigateur.
+- Exports unitaires : PNG HD, SVG et PDF via la fenetre d'impression du navigateur.
+- Liste de designs valides via le bouton `Ajouter a la liste des exports` pour preparer plusieurs etiquettes avant export groupe.
+- Export groupe depuis une modal : ZIP de PNG HD, ZIP de PDF HD, ou un seul PDF avec tous les designs cote a cote avec 2 mm de marge.
 - Plus d'exemples : Deadly Nightshade, Mermaid Tears, Love Potion, Elixir of Life, Phoenix Ashes, Moon Dust, Dragon's Breath, Basilisk Venom, Ghost Ink, Royal Antidote, Snail Slime, Vampire Tonic.
 - Plus de formes : rectangle, arche, badge, diamant, blason, ticket.
 - Plus de polices de titre et de symboles.
