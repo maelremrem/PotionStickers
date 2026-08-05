@@ -5,6 +5,7 @@ Webapp locale pour creer et editer des stickers de potions pour un cosplay.
 ## Utilisation
 
 Ouvre `index.html` dans ton navigateur. L'app fonctionne sans installation.
+C'est également disponible [ici](https://maelremrem.github.io/PotionStickers/)
 
 ## Nouveautes
 
