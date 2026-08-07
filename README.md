@@ -28,4 +28,4 @@ C'est également disponible [ici](https://maelremrem.github.io/PotionStickers/)
 Le bouton `PDF` ouvre une page d'impression au format indique dans les champs largeur/hauteur. Choisis `Enregistrer au format PDF` dans ton navigateur pour garder un fichier vectoriel net. Le PNG utilise la formule `pixels = millimetres x 300 / 25,4`.
 
 ## IA
-Outil créé à l'aide de codex pour plus d'infos, voir [PROMPT.MD](PROMPT.MD)
+Outil créé à l'aide de codex pour plus d'infos, voir [PROMPT.md](PROMPT.md)
