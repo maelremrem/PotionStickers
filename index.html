@@ -55,9 +55,22 @@
         <details class="control-group disclosure" open>
           <summary><span><span class="summary-icon" aria-hidden="true">❦</span> Décorations & usure</span><span aria-hidden="true">＋</span></summary>
           <div class="details-body">
+            <div class="ornament-heading">
+              <div><span class="field-title">Bibliothèque d’ornements</span><span class="field-help">Choisissez un style pour l’appliquer instantanément.</span></div>
+              <button class="reset-mini reset-field" id="resetDecorationsBtn" type="button" title="Réinitialiser les ornements"><span aria-hidden="true">↺</span> Reset</button>
+            </div>
+            <div class="ornament-filters">
+              <label>Rechercher <input id="ornamentSearch" type="search" placeholder="Ex. végétal, sombre…" autocomplete="off"></label>
+              <label>Catégorie <select id="ornamentCategory"><option value="all">Toutes</option><option value="mystic">Mystique</option><option value="nature">Végétal</option><option value="royal">Royal</option><option value="dark">Sombre</option><option value="marine">Marin</option><option value="geometric">Géométrique</option></select></label>
+            </div>
+            <label class="sr-only" for="decorationStyle">Style de décoration</label>
+            <select class="sr-only" id="decorationStyle">
+              <option value="none">Aucune</option><option value="victorian">Volutes victoriennes</option><option value="celestial">Céleste</option><option value="botanical">Herbier</option><option value="alchemy">Alchimique</option><option value="runes">Runes anciennes</option><option value="artdeco">Art déco</option><option value="gothic">Gothique</option><option value="maritime">Maritime</option><option value="crystal">Cristaux</option><option value="fungi">Champignons</option><option value="flame">Flammes</option><option value="serpent">Serpents</option><option value="heraldic">Héraldique</option>
+            </select>
+            <div class="ornament-picker" id="ornamentPicker" role="listbox" aria-label="Styles d’ornements"></div>
             <div class="row">
-              <label>Décoration
-                <select id="decorationStyle"><option value="none">Aucune</option><option value="victorian">Volutes victoriennes</option><option value="celestial">Céleste</option><option value="botanical">Herbier</option><option value="alchemy">Alchimique</option><option value="runes">Runes anciennes</option></select>
+              <label>Placement
+                <select id="decorationPlacement"><option value="corners">Coins</option><option value="topBottom">Haut & bas</option><option value="sides">Côtés</option><option value="scattered">Semé</option><option value="all">Tout le pourtour</option></select>
               </label>
               <label>Couleur de l’encre <input type="color" id="inkColor" value="#463e32"></label>
             </div>
@@ -71,6 +84,26 @@
               <input type="range" id="decorationSize" min="40" max="200" value="100">
               <div class="range-limits" aria-hidden="true"><span>40%</span><span>200%</span></div>
             </div>
+            <details class="fine-settings ornament-settings">
+              <summary>Réglages fins des ornements <span aria-hidden="true">⌄</span></summary>
+              <div class="fine-grid">
+                <div class="range-field">
+                  <div class="range-head"><label for="decorationOpacity">Opacité</label><output id="decorationOpacityValue" for="decorationOpacity">60%</output></div>
+                  <input type="range" id="decorationOpacity" min="0" max="100" value="60">
+                  <div class="range-limits" aria-hidden="true"><span>Invisible</span><span>Opaque</span></div>
+                </div>
+                <div class="range-field">
+                  <div class="range-head"><label for="decorationRotation">Rotation globale</label><output id="decorationRotationValue" for="decorationRotation">0°</output></div>
+                  <input type="range" id="decorationRotation" min="-180" max="180" value="0">
+                  <div class="range-limits" aria-hidden="true"><span>−180°</span><span>180°</span></div>
+                </div>
+                <div class="range-field">
+                  <div class="range-head"><label for="decorationSpread">Espacement</label><output id="decorationSpreadValue" for="decorationSpread">100%</output></div>
+                  <input type="range" id="decorationSpread" min="35" max="135" value="100">
+                  <div class="range-limits" aria-hidden="true"><span>Resserré</span><span>Écarté</span></div>
+                </div>
+              </div>
+            </details>
             <div class="seed-panel">
               <div class="seed-heading"><div><span aria-hidden="true">⌁</span><strong>Usure procédurale</strong></div><span class="seed-badge">Reproductible</span></div>
               <div class="seed-row">
@@ -143,6 +176,16 @@
             </div>
             <input class="visually-hidden" id="projectFile" type="file" accept="application/json,.json">
             <button class="btn ghost" id="importProjectBtn"><span aria-hidden="true">⇧</span> Importer un projet JSON</button>
+          </div>
+        </details>
+
+        <details class="control-group disclosure" open>
+          <summary><span><span class="summary-icon" aria-hidden="true">✦</span> Directions créatives</span><span aria-hidden="true">＋</span></summary>
+          <div class="details-body">
+            <p class="hint">Appliquez une direction complète ou générez plusieurs propositions depuis votre contenu actuel.</p>
+            <div class="creative-presets" id="creativePresets" role="list" aria-label="Directions créatives"></div>
+            <div class="variation-heading"><strong>Variations du design</strong><button class="btn secondary compact" id="generateVariationsBtn"><span aria-hidden="true">⚄</span> Générer 4</button></div>
+            <div class="variation-grid" id="variationGrid"><p class="hint">Les propositions apparaîtront ici sans modifier votre design.</p></div>
           </div>
         </details>
 
@@ -234,7 +277,11 @@
       <div class="preview-wrap">
         <div class="preview-badge"><span class="live-dot" aria-hidden="true"></span> Aperçu vectoriel</div>
         <div class="label-shell" id="previewShell" tabindex="0"></div>
-        <p class="preview-help">Cliquez puis glissez un élément pour le déplacer</p>
+        <div class="preview-tools" aria-label="Guides de composition">
+          <label><input type="checkbox" id="showSafeArea" checked> Zone sûre</label>
+          <label><input type="checkbox" id="snapToGuides" checked> Magnétisme</label>
+        </div>
+        <p class="preview-help">Cliquez un élément ou un ornement, puis glissez-le · guides magnétiques actifs</p>
       </div>
       <div class="sheet-heading"><div><p class="section-kicker">Collection</p><h2>Planche d’impression</h2></div><span class="sheet-count" id="sheetCount">0 étiquette</span></div>
       <section class="sheet" id="sheet" aria-label="Planche imprimable"></section>
@@ -246,11 +293,15 @@
         <span class="panel-icon" aria-hidden="true">✣</span>
       </div>
       <div class="controls">
+        <section class="control-group layers-panel">
+          <div class="layers-heading"><div><h3>Calques</h3><p class="hint">Sélectionnez, masquez, verrouillez ou réordonnez.</p></div><span class="layer-count" id="layerCount">0</span></div>
+          <div class="layers-list" id="layersList" role="listbox" aria-label="Calques du design"></div>
+        </section>
         <section class="control-group">
           <h3>Inspecteur de l’élément</h3>
           <div class="element-select-row">
             <label>Élément sélectionné
-              <select id="activeElement"><option value="maker">Apothicaire</option><option value="topRule">Ornement haut</option><option value="iconFrame">Cadre symbole</option><option value="icon">Symbole</option><option value="name">Nom</option><option value="tagline">Sous-titre</option><option value="ingredients">Texte fin</option><option value="bottomRule">Ornement bas</option><option value="batch">Numéro / flacon</option><option value="innerBorder">Contour intérieur</option><option value="dashBorder">Contour pointillé</option></select>
+              <select id="activeElement"><option value="decorations">Décorations</option><option value="maker">Apothicaire</option><option value="topRule">Ornement haut</option><option value="iconFrame">Cadre symbole</option><option value="icon">Symbole</option><option value="name">Nom</option><option value="tagline">Sous-titre</option><option value="ingredients">Texte fin</option><option value="bottomRule">Ornement bas</option><option value="batch">Numéro / flacon</option><option value="innerBorder">Contour intérieur</option><option value="dashBorder">Contour pointillé</option></select>
             </label>
             <button class="reset-mini reset-all" id="resetAllElementBtn" title="Réinitialiser tous les réglages de cet élément"><span aria-hidden="true">↺</span><span>Tout</span></button>
           </div>

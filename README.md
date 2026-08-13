@@ -14,7 +14,13 @@ C’est également disponible [ici](https://maelremrem.github.io/PotionStickers/
 - Panneaux fixes, groupes de réglages repliables et adaptation mobile améliorée.
 - Sliders utilisables sur toute leur largeur, avec piste remplie et valeurs extrêmes visibles.
 - Déplacement tactile et souris fiabilisé, avec mise à jour fluide de l’aperçu.
-- 17 styles typographiques et 36 symboles alchimiques, célestes et décoratifs.
+- 17 styles typographiques, 36 symboles et 13 familles d’ornements avec aperçu visuel.
+- Placement des ornements par zones, quantité, taille, opacité, rotation et espacement réglables.
+- Recherche d’ornements par nom et catégories visuelles.
+- Directions créatives combinant palette, typographie, symbole, ornements et usure.
+- Générateur de quatre variations non destructives à partir du design courant.
+- Sélection directe des éléments et ornements dans l’aperçu, avec guides magnétiques et zone sûre.
+- Panneau de calques : ordre de rendu, visibilité, verrouillage, duplication et suppression des copies.
 - Retours visuels lors de l’ajout, de la validation et de la réinitialisation.
 - Navigation clavier et styles de focus plus accessibles.
 - Historique annuler/rétablir avec raccourcis clavier et sauvegarde automatique du brouillon sur l’appareil.
