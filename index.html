@@ -3,29 +3,358 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Atelier d'etiquettes de potions</title>
-  <meta name="description" content="Editeur local pour creer et exporter des stickers de potions de cosplay.">
+  <meta name="theme-color" content="#201b17">
+  <title>Atelier d’étiquettes de potions</title>
+  <meta name="description" content="Créez, personnalisez et exportez des étiquettes de potions en haute définition.">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a class="skip-link" href="#previewShell">Aller à l’aperçu</a>
   <main class="app">
     <header class="topbar">
-      <div class="brand"><div class="brand-mark" aria-hidden="true">☾</div><div><h1>Atelier de potions</h1><div class="subtitle">Etiquettes vectorielles, exports HD et planches d'impression</div></div></div>
-      <div class="toolbar" aria-label="Actions"><button class="btn secondary" id="randomBtn">✦ Exemple aleatoire</button><button class="btn secondary" id="addSheetBtn">Ajouter cette potion a la planche</button><button class="btn secondary" id="validateBtn">Ajouter a la liste des exports</button><button class="btn secondary" id="exportAllBtn">Tout exporter</button><button class="btn secondary" id="pngBtn">PNG HD</button><button class="btn secondary" id="pdfBtn">PDF HD</button><button class="btn" id="printBtn">Imprimer la planche</button></div>
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">☾</div>
+        <div>
+          <p class="eyebrow">Grimoire créatif</p>
+          <h1>Atelier de potions</h1>
+          <p class="subtitle">Étiquettes vectorielles · exports 300 dpi · planches d’impression</p>
+        </div>
+      </div>
+      <div class="toolbar" aria-label="Actions principales">
+        <div class="history-actions" role="group" aria-label="Historique">
+          <button class="btn ghost icon-only" id="undoBtn" title="Annuler (Ctrl ou Cmd + Z)" disabled><span aria-hidden="true">↶</span><span class="sr-only">Annuler</span></button>
+          <button class="btn ghost icon-only" id="redoBtn" title="Rétablir (Ctrl ou Cmd + Maj + Z)" disabled><span aria-hidden="true">↷</span><span class="sr-only">Rétablir</span></button>
+        </div>
+        <button class="btn ghost" id="randomBtn" title="Charger un modèle aléatoire"><span aria-hidden="true">✦</span> Surprise</button>
+        <button class="btn secondary" id="addSheetBtn"><span aria-hidden="true">＋</span> Ajouter à la planche</button>
+        <button class="btn" id="validateBtn"><span aria-hidden="true">✓</span> Valider le design</button>
+        <button class="btn accent" id="exportAllBtn"><span aria-hidden="true">⇩</span> Exporter</button>
+        <span class="save-status" id="saveStatus" role="status"><span aria-hidden="true">✓</span> Sauvegardé</span>
+      </div>
     </header>
-    <section class="panel left-panel" aria-label="Edition"><h2>Edition</h2><div class="controls">
-      <label>Modele <select id="template"></select></label><label>Nom <input id="name" maxlength="48"></label><label>Sous-titre <input id="tagline" maxlength="78"></label><label>Texte fin <textarea id="ingredients" maxlength="220"></textarea></label>
-      <div class="row"><label>Forme <select id="shape"><option value="tall">Rectangle</option><option value="arch">Arche</option><option value="badge">Badge</option><option value="diamond">Diamant</option><option value="shield">Blason</option><option value="ticket">Ticket</option></select></label><label>Police titre <select id="font"><option value="Cinzel">Cinzel</option><option value="Garamond">Garamond</option><option value="Baskerville">Baskerville</option><option value="Bodoni">Bodoni</option><option value="Didot">Didot</option><option value="Blackletter">Blackletter</option><option value="Script">Script</option><option value="Poster">Poster</option><option value="Copperplate">Copperplate</option><option value="Typewriter">Machine a ecrire</option><option value="Narrow">Condensee</option><option value="Decorative">Decorative</option></select></label></div>
-      <div class="row"><label>Symbole texte <select id="icon"></select></label><label>Cadre du symbole <select id="symbolFrame"><option value="circle">Cercle</option><option value="doubleCircle">Double cercle</option><option value="diamond">Losange</option><option value="square">Carre</option><option value="none">Masquer</option></select></label></div>
-      <div class="row"><label>Apothicaire <input id="maker" maxlength="44"></label><label>Numero <input id="number" maxlength="16"></label></div><label>Flacon <input id="bottle" maxlength="20"></label>
-      <label>Symbole PNG/SVG depose <input id="symbolFile" type="file" accept="image/png,image/jpeg,image/svg+xml"></label><div class="drop-zone" id="dropZone">Depose ici un PNG ou SVG pour remplacer le symbole central</div><label>Fond PNG/SVG depose <input id="backgroundFile" type="file" accept="image/png,image/jpeg,image/svg+xml"></label><div class="drop-zone" id="backgroundDropZone">Depose ici un PNG ou SVG pour le fond de l etiquette</div><label>Opacite du fond importe <input type="range" id="backgroundOpacity" min="0" max="100" value="22"><span class="range-value" id="backgroundOpacityValue">22%</span></label>
-      <div class="row"><label>Largeur etiquette mm <input type="number" id="widthMm" min="20" max="700" step="1" value="70"></label><label>Hauteur etiquette mm <input type="number" id="heightMm" min="20" max="700" step="1" value="105"></label></div><div class="row"><label>Taille apercu <input type="range" id="scale" min="25" max="100" value="100"><span class="range-value" id="scaleValue">100%</span></label><label>Taille symbole <input type="range" id="symbolSize" min="0" max="100" value="74"><span class="range-value" id="symbolSizeValue">74%</span></label></div>
-      <label>Palette <div class="swatches" id="swatches"></div></label><div class="actions-grid"><button class="btn secondary" id="svgBtn">SVG</button><button class="btn secondary" id="jsonBtn">JSON</button><button class="btn secondary" id="resetBtn">Reset positions</button><button class="btn secondary" id="clearBtn">Vider planche</button></div><div class="hint">Les dimensions sont celles de l'etiquette exportee a 300 dpi. A 700 mm, les exports PNG deviennent tres lourds.</div>
-    </div></section>
-    <section class="stage" aria-label="Apercu"><div class="preview-wrap"><div class="label-shell" id="previewShell"></div></div><section class="sheet" id="sheet" aria-label="Planche imprimable"></section></section>
-    <section class="panel right-panel" aria-label="Positions"><h2>Deplacement</h2><div class="controls"><label>Element selectionne <select id="activeElement"><option value="maker">Apothicaire</option><option value="topRule">Ornement haut</option><option value="iconFrame">Cadre symbole</option><option value="icon">Symbole</option><option value="name">Nom</option><option value="tagline">Sous-titre</option><option value="ingredients">Texte fin</option><option value="bottomRule">Ornement bas</option><option value="batch">Numero / flacon</option><option value="innerBorder">Contour interieur</option><option value="dashBorder">Contour pointille</option></select></label><div class="row"><label>X <input type="range" id="posX" min="-100" max="100" value="0"></label><label>Y <input type="range" id="posY" min="-100" max="100" value="0"></label></div><div class="segmented" aria-label="Deplacer par petits pas"><button id="nudgeUp">Monter</button><button id="nudgeLeft">Gauche</button><button id="nudgeRight">Droite</button><button id="nudgeDown">Descendre</button></div><div class="align-grid" aria-label="Aligner l element"><button id="alignLeft">Aligner gauche</button><button id="alignCenterX">Centrer horizontal</button><button id="alignRight">Aligner droite</button><button id="alignTop">Aligner haut</button><button id="alignCenterY">Centrer vertical</button><button id="alignBottom">Aligner bas</button><button id="alignCenterBoth">Centrer milieu</button><button id="resetElementBtn">Reset element</button></div><div class="hint">Clique un bloc dans l'etiquette, puis glisse-le. Les textes et ornements restent coupes par la forme de l'etiquette.</div></div><h2>Designs valides</h2><div class="validated-list" id="validatedList"></div></section>
+
+    <aside class="panel left-panel" aria-label="Édition">
+      <div class="panel-heading">
+        <div><p class="section-kicker">Étape 1</p><h2>Composer</h2></div>
+        <span class="panel-icon" aria-hidden="true">✎</span>
+      </div>
+      <div class="controls">
+        <section class="control-group">
+          <h3>Contenu</h3>
+          <label>Modèle <select id="template"></select></label>
+          <label>Nom de la potion <input id="name" maxlength="48" autocomplete="off"></label>
+          <label>Sous-titre <input id="tagline" maxlength="78" autocomplete="off"></label>
+          <label>Ingrédients ou texte fin <textarea id="ingredients" maxlength="220"></textarea></label>
+          <div class="row">
+            <label>Apothicaire <input id="maker" maxlength="44" autocomplete="off"></label>
+            <label>Numéro de lot <input id="number" maxlength="16" autocomplete="off"></label>
+          </div>
+          <label>Contenance <input id="bottle" maxlength="20" autocomplete="off"></label>
+        </section>
+
+        <details class="control-group disclosure" open>
+          <summary><span><span class="summary-icon" aria-hidden="true">❦</span> Décorations & usure</span><span aria-hidden="true">＋</span></summary>
+          <div class="details-body">
+            <div class="row">
+              <label>Décoration
+                <select id="decorationStyle"><option value="none">Aucune</option><option value="victorian">Volutes victoriennes</option><option value="celestial">Céleste</option><option value="botanical">Herbier</option><option value="alchemy">Alchimique</option><option value="runes">Runes anciennes</option></select>
+              </label>
+              <label>Couleur de l’encre <input type="color" id="inkColor" value="#463e32"></label>
+            </div>
+            <div class="range-field">
+              <div class="range-head"><label for="decorationAmount">Quantité de décorations</label><output id="decorationAmountValue" for="decorationAmount">45%</output></div>
+              <input type="range" id="decorationAmount" min="0" max="100" value="45">
+              <div class="range-limits" aria-hidden="true"><span>Discret</span><span>Dense</span></div>
+            </div>
+            <div class="range-field">
+              <div class="range-head"><label for="decorationSize">Taille des décorations</label><output id="decorationSizeValue" for="decorationSize">100%</output></div>
+              <input type="range" id="decorationSize" min="40" max="200" value="100">
+              <div class="range-limits" aria-hidden="true"><span>40%</span><span>200%</span></div>
+            </div>
+            <div class="seed-panel">
+              <div class="seed-heading"><div><span aria-hidden="true">⌁</span><strong>Usure procédurale</strong></div><span class="seed-badge">Reproductible</span></div>
+              <div class="seed-row">
+                <label>Seed <input id="wearSeed" maxlength="48" value="moonlight-017" spellcheck="false"></label>
+                <button class="btn secondary" id="randomSeedBtn" title="Créer une nouvelle seed"><span aria-hidden="true">⚄</span> Aléatoire</button>
+              </div>
+              <label>Type d’usure
+                <select id="wearStyle"><option value="balanced">Patine équilibrée</option><option value="stains">Taches anciennes</option><option value="scratches">Rayures & frottements</option><option value="burn">Bords brûlés</option><option value="water">Auréoles d’eau</option></select>
+              </label>
+              <label>Préréglage cohérent
+                <select id="wearPreset"><option value="subtle">Patine subtile</option><option value="authentic" selected>Apothicaire authentique</option><option value="damp">Cave humide</option><option value="charred">Reliquaire brûlé</option><option value="custom">Réglage personnalisé</option></select>
+              </label>
+              <div class="range-field">
+                <div class="range-head"><label for="wearIntensity">Intensité de l’usure</label><output id="wearIntensityValue" for="wearIntensity">20%</output></div>
+                <input type="range" id="wearIntensity" min="0" max="100" value="20">
+                <div class="range-limits" aria-hidden="true"><span>Neuf</span><span>Très usé</span></div>
+              </div>
+              <details class="fine-settings">
+                <summary>Réglages fins du masque Perlin <span aria-hidden="true">⌄</span></summary>
+                <div class="fine-grid">
+                  <div class="range-field">
+                    <div class="range-head"><label for="wearScale">Échelle du bruit</label><output id="wearScaleValue" for="wearScale">85%</output></div>
+                    <input type="range" id="wearScale" min="20" max="240" value="85">
+                    <div class="range-limits" aria-hidden="true"><span>Grandes nappes</span><span>Grain fin</span></div>
+                  </div>
+                  <div class="range-field">
+                    <div class="range-head"><label for="wearDetail">Octaves / détails</label><output id="wearDetailValue" for="wearDetail">3</output></div>
+                    <input type="range" id="wearDetail" min="1" max="6" step="1" value="3">
+                    <div class="range-limits" aria-hidden="true"><span>Doux</span><span>Complexe</span></div>
+                  </div>
+                  <div class="range-field">
+                    <div class="range-head"><label for="wearCoverage">Couverture</label><output id="wearCoverageValue" for="wearCoverage">32%</output></div>
+                    <input type="range" id="wearCoverage" min="3" max="85" value="32">
+                    <div class="range-limits" aria-hidden="true"><span>Éparse</span><span>Étendue</span></div>
+                  </div>
+                  <div class="range-field">
+                    <div class="range-head"><label for="wearContrast">Contraste du masque</label><output id="wearContrastValue" for="wearContrast">165%</output></div>
+                    <input type="range" id="wearContrast" min="50" max="300" value="165">
+                    <div class="range-limits" aria-hidden="true"><span>Nuancé</span><span>Franc</span></div>
+                  </div>
+                  <div class="range-field">
+                    <div class="range-head"><label for="wearSoftness">Adoucissement</label><output id="wearSoftnessValue" for="wearSoftness">1.5 px</output></div>
+                    <input type="range" id="wearSoftness" min="0" max="8" step="0.5" value="1.5">
+                    <div class="range-limits" aria-hidden="true"><span>Net</span><span>Diffus</span></div>
+                  </div>
+                  <div class="range-field">
+                    <div class="range-head"><label for="wearEdge">Usure des bords</label><output id="wearEdgeValue" for="wearEdge">28%</output></div>
+                    <input type="range" id="wearEdge" min="0" max="100" value="28">
+                    <div class="range-limits" aria-hidden="true"><span>Centre</span><span>Bords marqués</span></div>
+                  </div>
+                  <div class="row">
+                    <label>Couleur des taches <input type="color" id="wearColor" value="#5a3a22"></label>
+                    <label>Fusion <select id="wearBlend"><option value="multiply">Produit</option><option value="normal">Normal</option><option value="overlay">Incrustation</option><option value="color-burn">Densité couleur +</option></select></label>
+                  </div>
+                </div>
+              </details>
+              <p class="hint">La même seed reproduit exactement les mêmes taches et rayures dans les exports.</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="control-group disclosure">
+          <summary><span><span class="summary-icon" aria-hidden="true">★</span> Bibliothèque de modèles</span><span aria-hidden="true">＋</span></summary>
+          <div class="details-body">
+            <p class="hint">Créez vos propres modèles, marquez vos favoris ou rechargez un projet JSON.</p>
+            <div class="template-actions">
+              <button class="btn secondary" id="favoriteBtn"><span aria-hidden="true">☆</span> Favori</button>
+              <button class="btn secondary" id="duplicateTemplateBtn"><span aria-hidden="true">⧉</span> Dupliquer</button>
+              <button class="btn secondary" id="saveTemplateBtn"><span aria-hidden="true">＋</span> Enregistrer</button>
+            </div>
+            <input class="visually-hidden" id="projectFile" type="file" accept="application/json,.json">
+            <button class="btn ghost" id="importProjectBtn"><span aria-hidden="true">⇧</span> Importer un projet JSON</button>
+          </div>
+        </details>
+
+        <section class="control-group">
+          <h3>Style</h3>
+          <div class="row">
+            <label>Forme
+              <select id="shape">
+                <option value="tall">Rectangle</option><option value="arch">Arche</option><option value="badge">Badge</option><option value="diamond">Diamant</option><option value="shield">Blason</option><option value="ticket">Ticket</option>
+              </select>
+            </label>
+            <label>Police du titre
+              <select id="font">
+                <optgroup label="Classiques">
+                  <option value="Cinzel">Cinzel</option><option value="CinzelDecorative">Cinzel décoratif</option><option value="Garamond">Garamond</option><option value="Cormorant">Cormorant</option><option value="Baskerville">Baskerville</option><option value="Bodoni">Bodoni</option><option value="Didot">Didot</option>
+                </optgroup>
+                <optgroup label="Fantaisie">
+                  <option value="Blackletter">Gothique</option><option value="Unifraktur">Enluminure</option><option value="Script">Script</option><option value="Uncial">Onciale</option><option value="Decorative">Grimoire</option>
+                </optgroup>
+                <optgroup label="Affiche & atelier">
+                  <option value="Poster">Poster</option><option value="Copperplate">Copperplate</option><option value="ArtDeco">Art déco</option><option value="Typewriter">Machine à écrire</option><option value="Narrow">Condensée</option>
+                </optgroup>
+              </select>
+            </label>
+          </div>
+          <div class="row">
+            <label>Symbole <select id="icon"></select></label>
+            <label>Cadre du symbole
+              <select id="symbolFrame"><option value="circle">Cercle</option><option value="doubleCircle">Double cercle</option><option value="diamond">Losange</option><option value="square">Carré</option><option value="none">Sans cadre</option></select>
+            </label>
+          </div>
+          <label>Palette <div class="swatches" id="swatches" role="group" aria-label="Palettes de couleur"></div></label>
+          <div class="range-field">
+            <div class="range-head"><label for="symbolSize">Taille du symbole</label><output id="symbolSizeValue" for="symbolSize">74%</output></div>
+            <input type="range" id="symbolSize" min="0" max="200" value="74">
+            <div class="range-limits" aria-hidden="true"><span>Masqué</span><span>200%</span></div>
+          </div>
+        </section>
+
+        <details class="control-group disclosure">
+          <summary><span><span class="summary-icon" aria-hidden="true">⌁</span> Images personnalisées</span><span aria-hidden="true">＋</span></summary>
+          <div class="details-body">
+            <label>Symbole PNG / JPG / SVG <input id="symbolFile" type="file" accept="image/png,image/jpeg,image/svg+xml"></label>
+            <div class="drop-zone" id="dropZone" tabindex="0">Déposez une image ici</div>
+            <label>Fond PNG / JPG / SVG <input id="backgroundFile" type="file" accept="image/png,image/jpeg,image/svg+xml"></label>
+            <div class="drop-zone" id="backgroundDropZone" tabindex="0">Déposez un fond ici</div>
+            <div class="range-field">
+              <div class="range-head"><label for="backgroundOpacity">Opacité du fond</label><output id="backgroundOpacityValue" for="backgroundOpacity">22%</output></div>
+              <input type="range" id="backgroundOpacity" min="0" max="100" value="22">
+              <div class="range-limits" aria-hidden="true"><span>0%</span><span>100%</span></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="control-group disclosure">
+          <summary><span><span class="summary-icon" aria-hidden="true">↔</span> Format & aperçu</span><span aria-hidden="true">＋</span></summary>
+          <div class="details-body">
+            <div class="row">
+              <label>Largeur <span class="input-unit"><input type="number" id="widthMm" min="20" max="700" step="1" value="70"><span>mm</span></span></label>
+              <label>Hauteur <span class="input-unit"><input type="number" id="heightMm" min="20" max="700" step="1" value="105"><span>mm</span></span></label>
+            </div>
+            <div class="range-field">
+              <div class="range-head"><label for="scale">Taille de l’aperçu</label><output id="scaleValue" for="scale">100%</output></div>
+              <input type="range" id="scale" min="25" max="100" value="100">
+              <div class="range-limits" aria-hidden="true"><span>25%</span><span>100%</span></div>
+            </div>
+            <p class="hint">Les exports sont calculés aux dimensions réelles, à 300 dpi. Les très grands formats peuvent être lourds.</p>
+          </div>
+        </details>
+
+        <div class="actions-grid">
+          <button class="btn secondary" id="svgBtn"><span aria-hidden="true">◇</span> SVG</button>
+          <button class="btn secondary" id="jsonBtn"><span aria-hidden="true">{ }</span> JSON</button>
+          <button class="btn ghost" id="resetBtn"><span aria-hidden="true">↺</span> Réinitialiser</button>
+          <button class="btn ghost danger" id="clearBtn"><span aria-hidden="true">×</span> Vider</button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="stage" aria-label="Aperçu">
+      <div class="stage-heading">
+        <div><p class="section-kicker">Étape 2</p><h2>Aperçu en direct</h2></div>
+        <div class="stage-actions" aria-label="Exports rapides">
+          <button class="btn compact secondary" id="pngBtn">PNG HD</button>
+          <button class="btn compact secondary" id="pdfBtn">PDF HD</button>
+          <button class="btn compact" id="printBtn"><span aria-hidden="true">⌁</span> Imprimer</button>
+        </div>
+      </div>
+      <div class="preview-wrap">
+        <div class="preview-badge"><span class="live-dot" aria-hidden="true"></span> Aperçu vectoriel</div>
+        <div class="label-shell" id="previewShell" tabindex="0"></div>
+        <p class="preview-help">Cliquez puis glissez un élément pour le déplacer</p>
+      </div>
+      <div class="sheet-heading"><div><p class="section-kicker">Collection</p><h2>Planche d’impression</h2></div><span class="sheet-count" id="sheetCount">0 étiquette</span></div>
+      <section class="sheet" id="sheet" aria-label="Planche imprimable"></section>
+    </section>
+
+    <aside class="panel right-panel" aria-label="Position et exports">
+      <div class="panel-heading">
+        <div><p class="section-kicker">Étape 3</p><h2>Ajuster</h2></div>
+        <span class="panel-icon" aria-hidden="true">✣</span>
+      </div>
+      <div class="controls">
+        <section class="control-group">
+          <h3>Inspecteur de l’élément</h3>
+          <div class="element-select-row">
+            <label>Élément sélectionné
+              <select id="activeElement"><option value="maker">Apothicaire</option><option value="topRule">Ornement haut</option><option value="iconFrame">Cadre symbole</option><option value="icon">Symbole</option><option value="name">Nom</option><option value="tagline">Sous-titre</option><option value="ingredients">Texte fin</option><option value="bottomRule">Ornement bas</option><option value="batch">Numéro / flacon</option><option value="innerBorder">Contour intérieur</option><option value="dashBorder">Contour pointillé</option></select>
+            </label>
+            <button class="reset-mini reset-all" id="resetAllElementBtn" title="Réinitialiser tous les réglages de cet élément"><span aria-hidden="true">↺</span><span>Tout</span></button>
+          </div>
+          <div class="range-field">
+            <div class="range-head"><label for="posX">Position horizontale</label><div class="range-actions"><output id="posXValue" for="posX">0</output><button class="reset-mini" id="resetPositionBtn" title="Réinitialiser la position" aria-label="Réinitialiser la position">↺</button></div></div>
+            <input type="range" id="posX" min="-100" max="100" value="0">
+            <div class="range-limits" aria-hidden="true"><span>−100</span><span>＋100</span></div>
+          </div>
+          <div class="range-field">
+            <div class="range-head"><label for="posY">Position verticale</label><output id="posYValue" for="posY">0</output></div>
+            <input type="range" id="posY" min="-100" max="100" value="0">
+            <div class="range-limits" aria-hidden="true"><span>−100</span><span>＋100</span></div>
+          </div>
+          <div class="transform-grid">
+            <div class="range-field">
+              <div class="range-head"><label for="elementScale">Échelle globale</label><div class="range-actions"><output id="elementScaleValue" for="elementScale">100%</output><button class="reset-mini" id="resetScaleBtn" title="Réinitialiser l’échelle" aria-label="Réinitialiser l’échelle">↺</button></div></div>
+              <input type="range" id="elementScale" min="25" max="200" value="100">
+              <div class="range-limits" aria-hidden="true"><span>25%</span><span>200%</span></div>
+            </div>
+            <div class="range-field">
+              <div class="range-head"><label for="elementRotation">Rotation</label><div class="range-actions"><output id="elementRotationValue" for="elementRotation">0°</output><button class="reset-mini" id="resetRotationBtn" title="Réinitialiser la rotation" aria-label="Réinitialiser la rotation">↺</button></div></div>
+              <input type="range" id="elementRotation" min="-180" max="180" value="0">
+              <div class="range-limits" aria-hidden="true"><span>−180°</span><span>180°</span></div>
+            </div>
+            <div class="range-field">
+              <div class="range-head"><label for="elementOpacity">Opacité</label><div class="range-actions"><output id="elementOpacityValue" for="elementOpacity">100%</output><button class="reset-mini" id="resetOpacityBtn" title="Réinitialiser l’opacité" aria-label="Réinitialiser l’opacité">↺</button></div></div>
+              <input type="range" id="elementOpacity" min="0" max="100" value="100">
+              <div class="range-limits" aria-hidden="true"><span>Invisible</span><span>Opaque</span></div>
+            </div>
+          </div>
+          <div class="text-element-controls" id="textElementControls">
+            <div class="range-field">
+              <div class="range-head"><label for="elementFontSize">Taille de la police</label><div class="range-actions"><output id="elementFontSizeValue" for="elementFontSize">100%</output><button class="reset-mini" id="resetFontSizeBtn" title="Réinitialiser la taille de police" aria-label="Réinitialiser la taille de police">↺</button></div></div>
+              <input type="range" id="elementFontSize" min="25" max="250" value="100">
+              <div class="range-limits" aria-hidden="true"><span>25%</span><span>250%</span></div>
+            </div>
+            <div class="range-field">
+              <div class="range-head"><label for="elementLetterSpacing">Espacement des lettres</label><div class="range-actions"><output id="elementLetterSpacingValue" for="elementLetterSpacing">0</output><button class="reset-mini" id="resetLetterSpacingBtn" title="Réinitialiser l’espacement" aria-label="Réinitialiser l’espacement des lettres">↺</button></div></div>
+              <input type="range" id="elementLetterSpacing" min="-3" max="12" step="0.1" value="0">
+              <div class="range-limits" aria-hidden="true"><span>−3</span><span>＋12</span></div>
+            </div>
+            <div class="range-field">
+              <div class="range-head"><label for="elementFontWeight">Graisse</label><div class="range-actions"><output id="elementFontWeightValue" for="elementFontWeight">400</output><button class="reset-mini" id="resetFontWeightBtn" title="Réinitialiser la graisse" aria-label="Réinitialiser la graisse">↺</button></div></div>
+              <input type="range" id="elementFontWeight" min="100" max="900" step="100" value="400">
+              <div class="range-limits" aria-hidden="true"><span>Fin</span><span>Noir</span></div>
+            </div>
+            <div class="font-control-row">
+              <label>Police de cet élément
+                <select id="elementFont">
+                  <option value="">Police du design</option><option value="Cinzel">Cinzel</option><option value="CinzelDecorative">Cinzel décoratif</option><option value="Garamond">Garamond</option><option value="Cormorant">Cormorant</option><option value="Baskerville">Baskerville</option><option value="Bodoni">Bodoni</option><option value="Didot">Didot</option><option value="Blackletter">Gothique</option><option value="Unifraktur">Enluminure</option><option value="Script">Script</option><option value="Uncial">Onciale</option><option value="Decorative">Grimoire</option><option value="Poster">Poster</option><option value="Copperplate">Copperplate</option><option value="ArtDeco">Art déco</option><option value="Typewriter">Machine à écrire</option><option value="Narrow">Condensée</option>
+                </select>
+              </label>
+              <button class="reset-mini reset-field" id="resetFontBtn" title="Revenir à la police du design" aria-label="Réinitialiser la police">↺</button>
+            </div>
+          </div>
+          <div class="vector-element-controls" id="vectorElementControls">
+            <div class="range-field">
+              <div class="range-head"><label for="elementStrokeWidth">Épaisseur du trait</label><div class="range-actions"><output id="elementStrokeWidthValue" for="elementStrokeWidth">100%</output><button class="reset-mini" id="resetStrokeWidthBtn" title="Réinitialiser l’épaisseur" aria-label="Réinitialiser l’épaisseur du trait">↺</button></div></div>
+              <input type="range" id="elementStrokeWidth" min="20" max="400" value="100">
+              <div class="range-limits" aria-hidden="true"><span>20%</span><span>400%</span></div>
+            </div>
+          </div>
+          <div class="nudge-grid" aria-label="Déplacer par petits pas">
+            <button id="nudgeUp" aria-label="Monter">↑</button><span></span>
+            <button id="nudgeLeft" aria-label="Déplacer à gauche">←</button><button id="nudgeDown" aria-label="Descendre">↓</button><button id="nudgeRight" aria-label="Déplacer à droite">→</button>
+          </div>
+          <div class="align-grid" aria-label="Aligner l’élément">
+            <button id="alignLeft" title="Aligner à gauche">⇤</button><button id="alignCenterX" title="Centrer horizontalement">↔</button><button id="alignRight" title="Aligner à droite">⇥</button>
+            <button id="alignTop" title="Aligner en haut">↥</button><button id="alignCenterY" title="Centrer verticalement">↕</button><button id="alignBottom" title="Aligner en bas">↧</button>
+            <button id="alignCenterBoth" title="Centrer parfaitement">✣</button><button id="resetElementBtn" title="Réinitialiser l’élément">↺</button>
+          </div>
+          <p class="hint"><strong>Astuce :</strong> utilisez les flèches du clavier. Maintenez Maj pour aller quatre fois plus vite.</p>
+        </section>
+
+        <section class="control-group">
+          <h3>Préparation d’impression</h3>
+          <div class="row">
+            <label>Format papier <select id="sheetFormat"><option value="a4">A4 paysage</option><option value="a3">A3 paysage</option><option value="a5">A5 paysage</option></select></label>
+            <label>Fond perdu <span class="input-unit"><input type="number" id="bleedMm" min="0" max="10" step="0.5" value="2"><span>mm</span></span></label>
+          </div>
+          <label class="check-field"><input type="checkbox" id="showCutGuides" checked><span>Afficher les traits de coupe</span></label>
+          <button class="btn secondary" id="autoArrangeBtn"><span aria-hidden="true">▦</span> Organiser automatiquement</button>
+          <p class="hint" id="arrangeStatus">Les étiquettes seront placées à l’échelle réelle avec leur fond perdu.</p>
+        </section>
+
+        <section class="validated-section">
+          <div class="section-title-row"><div><p class="section-kicker">Prêts à exporter</p><h3>Designs validés</h3></div><span aria-hidden="true">✓</span></div>
+          <div class="validated-list" id="validatedList"></div>
+        </section>
+      </div>
+    </aside>
   </main>
-  <div class="modal-backdrop" id="exportModal" aria-hidden="true"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="exportTitle"><div class="modal-head"><h2 id="exportTitle">Tout exporter</h2><button class="btn secondary" id="closeExportModal">×</button></div><p id="exportSummary">Aucun design valide.</p><label class="modal-field">Format PDF cote a cote <select id="paperFormat"><option value="a4">A4 paysage</option><option value="a3">A3 paysage</option><option value="a5">A5 paysage</option></select></label><div class="modal-actions"><button class="btn" id="zipPngBtn">ZIP PNG HD</button><button class="btn" id="zipPdfBtn">ZIP PDF HD</button><button class="btn" id="singlePdfBtn">PDF cote a cote</button></div><div class="hint" id="exportStatus">Marge du PDF cote a cote : 2 mm autour et entre les designs.</div></div></div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="modal-backdrop" id="exportModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="exportTitle">
+      <div class="modal-head"><div><p class="section-kicker">Dernière étape</p><h2 id="exportTitle">Exporter les créations</h2></div><button class="icon-btn" id="closeExportModal" aria-label="Fermer">×</button></div>
+      <p id="exportSummary">Aucun design validé.</p>
+      <label class="modal-field">Format de la planche PDF <select id="paperFormat"><option value="a4">A4 paysage</option><option value="a3">A3 paysage</option><option value="a5">A5 paysage</option></select></label>
+      <div class="modal-actions"><button class="btn secondary" id="zipPngBtn">ZIP · PNG HD</button><button class="btn secondary" id="zipPdfBtn">ZIP · PDF HD</button><button class="btn accent" id="singlePdfBtn">Planche PDF</button></div>
+      <div class="hint export-status" id="exportStatus">Marge de 2 mm autour et entre les designs.</div>
+    </div>
+  </div>
+  <script src="font-data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
