@@ -401,7 +401,20 @@
       <div class="modal-head"><div><p class="section-kicker">Dernière étape</p><h2 id="exportTitle">Exporter les créations</h2></div><button class="icon-btn" id="closeExportModal" aria-label="Fermer">×</button></div>
       <p id="exportSummary">Aucun design validé.</p>
       <label class="modal-field">Format de la planche PDF <select id="paperFormat"><option value="a4">A4 paysage</option><option value="a3">A3 paysage</option><option value="a5">A5 paysage</option></select></label>
-      <div class="modal-actions"><button class="btn secondary" id="zipPngBtn">ZIP · PNG HD</button><button class="btn secondary" id="zipPdfBtn">ZIP · PDF HD</button><button class="btn accent" id="singlePdfBtn">Planche PDF</button></div>
+      <section class="export-scale-panel" aria-labelledby="exportScaleTitle">
+        <div class="export-scale-heading"><div><strong id="exportScaleTitle">Correction d’échelle</strong><span>Appliquée uniquement à cet export</span></div><span class="seed-badge">Non destructif</span></div>
+        <div class="range-field">
+          <div class="range-head"><label for="exportScale">Pourcentage final</label><div class="range-actions"><output id="exportScaleValue" for="exportScale exportScaleNumber">100%</output><button class="reset-mini" id="resetExportScaleBtn" type="button" title="Revenir à 100 %" aria-label="Réinitialiser l’échelle d’export">↺</button></div></div>
+          <input type="range" id="exportScale" min="25" max="200" step="1" value="100">
+          <div class="range-limits" aria-hidden="true"><span>25%</span><span>200%</span></div>
+        </div>
+        <div class="export-scale-exact">
+          <label>Valeur exacte <span class="input-unit"><input type="number" id="exportScaleNumber" min="25" max="200" step="1" value="100"><span>%</span></span></label>
+          <div class="scale-presets" aria-label="Corrections rapides"><button type="button" data-export-scale="90">90%</button><button type="button" data-export-scale="95">95%</button><button type="button" data-export-scale="100">100%</button><button type="button" data-export-scale="105">105%</button><button type="button" data-export-scale="110">110%</button></div>
+        </div>
+        <div class="scale-preview" id="exportScalePreview" aria-live="polite">Les dimensions originales seront conservées.</div>
+      </section>
+      <div class="modal-actions"><button class="btn secondary" id="zipPngBtn">ZIP · PNG HD</button><button class="btn secondary" id="zipPdfBtn">ZIP · PDF HD</button><button class="btn accent" id="singlePdfBtn">Planche PDF</button><button class="btn" id="printScaledBtn"><span aria-hidden="true">⌁</span> Imprimer</button></div>
       <div class="hint export-status" id="exportStatus">Marge de 2 mm autour et entre les designs.</div>
     </div>
   </div>

@@ -456,8 +456,20 @@ input[type="file"]::file-selector-button { margin-right: 7px; border: 0; border-
 .modal-head h2 { margin: 0; font-family: var(--display); font-size: 28px; }
 .modal p { margin: 0 0 16px; color: var(--muted); font-size: 12px; }
 .modal-field { margin-bottom: 12px; }
-.modal-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-bottom: 12px; }
+.export-scale-panel { display: grid; gap: 12px; margin-bottom: 14px; border: 1px solid rgba(136,51,71,.22); border-radius: 11px; background: linear-gradient(145deg,rgba(136,51,71,.05),rgba(165,119,53,.055)); padding: 12px; }
+.export-scale-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.export-scale-heading strong, .export-scale-heading span { display: block; }
+.export-scale-heading strong { font-family: var(--display); font-size: 18px; line-height: 1; }
+.export-scale-heading div > span { margin-top: 4px; color: var(--muted); font-size: 9px; }
+.export-scale-exact { display: grid; grid-template-columns: 100px minmax(0,1fr); align-items: end; gap: 9px; }
+.scale-presets { display: grid; grid-template-columns: repeat(5,1fr); gap: 4px; }
+.scale-presets button { min-height: 39px; border: 1px solid var(--line); border-radius: 6px; background: #fffdf8; color: var(--ink-soft); padding: 4px; font-size: 9px; font-weight: 800; cursor: pointer; }
+.scale-presets button:hover, .scale-presets button.active { border-color: var(--accent); background: rgba(136,51,71,.08); color: var(--accent); }
+.scale-preview { border-left: 3px solid var(--sage); border-radius: 5px; background: rgba(56,106,96,.065); color: var(--ink-soft); padding: 8px 9px; font-size: 10px; line-height: 1.45; }
+.scale-preview.warning { border-left-color: var(--gold); background: rgba(165,119,53,.08); }
+.modal-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; margin-bottom: 12px; }
 .export-status { border-radius: 7px; background: var(--paper); padding: 9px; }
+.print-frame { position: fixed; right: 0; bottom: 0; width: 1px; height: 1px; border: 0; opacity: 0; pointer-events: none; }
 
 @media (max-width: 1180px) {
   .app { grid-template-columns: 310px minmax(400px, 1fr); }
@@ -490,6 +502,7 @@ input[type="file"]::file-selector-button { margin-right: 7px; border: 0; border-
   .row { grid-template-columns: 1fr; }
   .sheet { grid-template-columns: repeat(2, 1fr); }
   .modal-actions { grid-template-columns: 1fr; }
+  .export-scale-exact { grid-template-columns: 1fr; }
   .seed-row { grid-template-columns: 1fr; }
   .ornament-filters, .creative-presets { grid-template-columns: 1fr; }
   .variation-grid { grid-template-columns: repeat(2,1fr); }

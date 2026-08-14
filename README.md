@@ -21,6 +21,8 @@ C’est également disponible [ici](https://maelremrem.github.io/PotionStickers/
 - Générateur de quatre variations non destructives à partir du design courant.
 - Sélection directe des éléments et ornements dans l’aperçu, avec guides magnétiques et zone sûre.
 - Panneau de calques : ordre de rendu, visibilité, verrouillage, duplication et suppression des copies.
+- Correction globale d’échelle de 25 à 200 % avant export ou impression, sans modifier les dimensions enregistrées.
+- Aperçu instantané des dimensions corrigées et raccourcis 90, 95, 100, 105 et 110 %.
 - Retours visuels lors de l’ajout, de la validation et de la réinitialisation.
 - Navigation clavier et styles de focus plus accessibles.
 - Historique annuler/rétablir avec raccourcis clavier et sauvegarde automatique du brouillon sur l’appareil.
